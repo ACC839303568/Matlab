@@ -1,0 +1,341 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PORTFOLIOANALYSISSCRIPT explore your ideas - an intro to MATLAB</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-04-23"><meta name="DC.source" content="portfolioAnalysisScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">FV3TYEPWNNQC-18-29212</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">5cf73e2d-cd1f-465b-a701-b078786e18cf</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">http://sharepoint/marketing/marcomm/seminars/emea_seminars/_layouts/DocIdRedir.aspx?ID=FV3TYEPWNNQC-18-29212, FV3TYEPWNNQC-18-29212</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head><body><div class="content"><h1>PORTFOLIOANALYSISSCRIPT explore your ideas - an intro to MATLAB</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">1) Import Data</a></li><li><a href="#2">2) Plot Time Series</a></li><li><a href="#3">3) Calculate Returns and Moments</a></li><li><a href="#4">4) Visualise the correlations between large cap equity stock indices</a></li><li><a href="#5">5) Use built-in statistical plots to investigate your data</a></li><li><a href="#6">6) Mean-Variance Portfolio</a></li><li><a href="#7">6.1) Setup portfolio</a></li><li><a href="#8">6.2) Plot the Mean-Variance efficient frontier</a></li><li><a href="#9">7) CVaR Portfolio</a></li><li><a href="#10">7.1) Setup portfolio</a></li><li><a href="#11">7.2) Plot the CVaR efficient frontier</a></li><li><a href="#12">8) Compare CVaR and Mean-Variance portfolios</a></li><li><a href="#13">8.1) Calculate Mean-Variance for CVaR Portfolios</a></li><li><a href="#14">8.2) Add CVaR Portfolios to Mean-Variance Plot</a></li><li><a href="#15">8.3) Compare Weights</a></li><li><a href="#16">Visualise weight allocation.</a></li><li><a href="#17">9) Analyze normality of data</a></li><li><a href="#18">9.1) Let's analyze  the returns</a></li><li><a href="#19">5.2) Add a normal fit to the histogram</a></li><li><a href="#20">10) Include transaction costs and turnover constraints in new portfolio</a></li><li><a href="#21">11) Resample the efficient frontier - a bootstrapped portfolio optimisation</a></li></ul></div><h2>1) Import Data<a name="1"></a></h2><p>Read asset prices from a Database using autogenerated MATLAB scripts. Information can be retrieved from the database direct into a dataset array You can also subsequently customise the autogenerated code.</p><pre class="codeinput">importFromDB;  <span class="comment">% Database Toolbox</span>
+</pre><h2>2) Plot Time Series<a name="2"></a></h2><p>Visualize imported time series with legend</p><pre class="codeinput">createfigure(dates, prices);
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_01.png" alt=""> <h2>3) Calculate Returns and Moments<a name="3"></a></h2><p>Calculate daily returns, their means and covariance matrix. In this example we make a simplifying assumption of equating expected future expected average returns to historical averages</p><pre class="codeinput">returns = tick2ret(prices,dates,<span class="string">'Continuous'</span>);  <span class="comment">% log returns, Financial TB</span>
+
+m = mean(returns)
+covMx = cov(returns)
+C = corrcoef(returns)
+</pre><pre class="codeoutput">m =
+   0.00024639   0.00018916   0.00027306  -0.00027334   0.00014132   0.00031132
+covMx =
+   9.0421e-05   5.9704e-05   6.8556e-05   2.3033e-05   4.5593e-05   7.0897e-05
+   5.9704e-05   0.00020332   0.00016496    4.441e-05   0.00012318   6.7353e-05
+   6.8556e-05   0.00016496   0.00023187    4.753e-05   0.00011755   8.1589e-05
+   2.3033e-05    4.441e-05    4.753e-05   0.00019462   3.6652e-05   1.5891e-05
+   4.5593e-05   0.00012318   0.00011755   3.6652e-05   0.00012237    5.161e-05
+   7.0897e-05   6.7353e-05   8.1589e-05   1.5891e-05    5.161e-05   0.00011831
+C =
+            1      0.44033      0.47346      0.17363      0.43344      0.68547
+      0.44033            1      0.75972      0.22325       0.7809      0.43427
+      0.47346      0.75972            1      0.22374      0.69784      0.49261
+      0.17363      0.22325      0.22374            1       0.2375      0.10472
+      0.43344       0.7809      0.69784       0.2375            1      0.42893
+      0.68547      0.43427      0.49261      0.10472      0.42893            1
+</pre><h2>4) Visualise the correlations between large cap equity stock indices<a name="4"></a></h2><p>interactively first, then generate code</p><pre class="codeinput">corrplot(returns) <span class="comment">% Econometric Toolbox</span>
+correlationPlot(C,names)
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_02.png" alt=""> <img vspace="5" hspace="5" src="portfolioAnalysisScript_03.png" alt=""> <h2>5) Use built-in statistical plots to investigate your data<a name="5"></a></h2><pre class="codeinput">figure
+normplot(returns)  <span class="comment">% Statistics Toolbox</span>
+legend(names)
+
+<span class="comment">% Explore your data, looking at distributions of returns</span>
+<span class="comment">% Interactive tool:  dfittool  (Statistics Toolbox)</span>
+<span class="comment">% Use the autogenerated code to explore the fit</span>
+
+<span class="comment">% generated code returns a fit object</span>
+<span class="comment">% pd1 - normal distribution object</span>
+<span class="comment">% pd2 - t Location-Scale distribution object</span>
+<span class="comment">%</span>
+<span class="comment">% The t location-scale distribution is useful for modeling data</span>
+<span class="comment">% distributions with heavier tails (more prone to outliers) than the normal</span>
+<span class="comment">% distribution.</span>
+[pd1,pd2] = createFit( returns(:,1) );  <span class="comment">% Explore Canada return series</span>
+
+<span class="comment">% Generate a new random sample from the fitted distribution</span>
+newRandomSample = random(pd2,1e6,1);
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_04.png" alt=""> <h2>6) Mean-Variance Portfolio<a name="6"></a></h2><p>It&#8217;s a good idea to look at a portfolio problem according to different risk measures.  So let&#8217;s create a mean-variance portfolio object, and find the 10 efficient portfolios according to a Mean-Variance risk proxy. The workflow is very similar to the CVaR portfolio workflow, except that we use the estimateAssetMoments method now, to estimate the mean and covariance of our return data.</p><h2>6.1) Setup portfolio<a name="7"></a></h2><pre class="codeinput">pmv = Portfolio;
+pmv = pmv.setAssetList(names);
+pmv = pmv.estimateAssetMoments(returns); <span class="comment">%Mean and covariance of asset returns from return data.</span>
+pmv = pmv.setDefaultConstraints; <span class="comment">%nonnegative weights that must sum to 1.</span>
+</pre><h2>6.2) Plot the Mean-Variance efficient frontier<a name="8"></a></h2><pre class="codeinput">figure; pmv.plotFrontier(10);
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_05.png" alt=""> <h2>7) CVaR Portfolio<a name="9"></a></h2><p>Here we create the CVaR object and use the object's methods to pass in data and setup the CVaR problem.  By setting the probability level to 0.95, we are choosing to minimize the mean loss in the 5% of portfolio returns with the highest losses.</p><h2>7.1) Setup portfolio<a name="10"></a></h2><pre class="codeinput">pmc = PortfolioCVaR;
+pmc = pmc.setAssetList(names);
+pmc = pmc.setScenarios(returns); <span class="comment">%Set asset returns scenarios by direct matrix</span>
+pmc = pmc.setDefaultConstraints; <span class="comment">% nonnegative weights that must sum to 1</span>
+pmc = pmc.setProbabilityLevel(0.95);
+</pre><h2>7.2) Plot the CVaR efficient frontier<a name="11"></a></h2><pre class="codeinput">figure; [pmcRisk, pmcReturns] = pmc.plotFrontier(10);
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_06.png" alt=""> <h2>8) Compare CVaR and Mean-Variance portfolios<a name="12"></a></h2><h2>8.1) Calculate Mean-Variance for CVaR Portfolios<a name="13"></a></h2><p>One way that we can compare the portfolios is to convert between risk proxies.  Here, we'll calculate the Mean-Variance risk of the 10 CVaR portfolios using the CVaR portfolio weights.</p><pre class="codeinput">pmcweights = pmc.estimateFrontier(10);
+pmcRiskStd = pmc.estimatePortStd(pmcweights);
+</pre><h2>8.2) Add CVaR Portfolios to Mean-Variance Plot<a name="14"></a></h2><p>Now that we have the mean-variance risk of the CVaR portfolios, we can add them to the mean-variance frontier plot.</p><pre class="codeinput">figure;
+pmv.plotFrontier(10);
+hold <span class="string">on</span>
+plot(pmcRiskStd,pmcReturns,<span class="string">'-r'</span>,<span class="string">'LineWidth'</span>,2);
+legend(<span class="string">'Mean-Variance Efficient Frontier'</span>,<span class="keyword">...</span>
+       <span class="string">'CVaR Efficient Frontier'</span>,<span class="keyword">...</span>
+       <span class="string">'Location'</span>,<span class="string">'SouthEast'</span>)
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_07.png" alt=""> <h2>8.3) Compare Weights<a name="15"></a></h2><p>Another way to compare the efficient portfolios is to look at the weights for the 10 portfolios.  We'll visualize the weights for the CVaR and Mean-Variance side-by-side using area plots. This allows us to see the allocation differences, i.e. mix of the different assets in each of the 10 efficient portfolios.</p><pre class="codeinput">pmvweights = pmv.estimateFrontier(10);
+[pmvRiskStd, pmvRet] = estimatePortMoments(pmv, pmvweights);
+riskfreeRate = 0;  <span class="comment">% Change this to a more realistic value</span>
+sharpeRatios = (pmvRet ./ pmvRiskStd) - riskfreeRate;  <span class="comment">% or use sharpe function in Fin TB</span>
+</pre><h2>Visualise weight allocation.<a name="16"></a></h2><pre class="codeinput">figure;
+
+subplot(1,2,1);
+area(pmcweights');
+title(<span class="string">'CVaR Portfolio Weights'</span>);
+
+subplot(1,2,2);
+area(pmvweights');
+title(<span class="string">'Mean-Variance Portfolio Weights'</span>);
+
+set(get(gcf,<span class="string">'Children'</span>),<span class="string">'YLim'</span>,[0 1]);
+l = legend(pmv.AssetList);
+set(l, <span class="string">'Position'</span>,[0.92 0.68 0.05 0.24]);
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_08.png" alt=""> <h2>9) Analyze normality of data<a name="17"></a></h2><h2>9.1) Let's analyze  the returns<a name="18"></a></h2><p>Histogram of the returns of the Bond ETF's grouped into 50 bins</p><pre class="codeinput">figure;
+hist(returns(:),50);
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_09.png" alt=""> <h2>5.2) Add a normal fit to the histogram<a name="19"></a></h2><p>If we try to fit a normal distribution to the return data, it becomes evident that a normal distribution may not be a good assumption to make. This helps explain the difference between our Mean-Variance portfolio, which assumes that returns are normally distributed, and our CVaR portfolio, which uses simulations that don&#8217;t necessarily need to be normal.</p><pre class="codeinput">histfit(returns(:),50); figure(gcf);
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_10.png" alt=""> <h2>10) Include transaction costs and turnover constraints in new portfolio<a name="20"></a></h2><pre class="codeinput">Q = pmv;  <span class="comment">% place all previous portfolio settings into a new portfolio Q</span>
+
+<span class="comment">% Initial portfolio, pick one associated with a particular risk level</span>
+<span class="comment">% (Estimate optimal portfolios with targeted portfolio risks.)</span>
+initialPortfolio = estimateFrontierByRisk(pmv,0.01);
+Q = setInitPort(Q, initialPortfolio );
+Q = setTurnover(Q, 0.1); <span class="comment">% ensures average turnover is NO MORE THAN 10%</span>
+Q = setCosts(Q,0.0002,0.0002); <span class="comment">% 2bp buying/selling costs (don't need to be same)</span>
+
+qweights = estimateFrontier(Q,20);
+[qRiskStd, qRet] = estimatePortMoments(Q, qweights);
+
+
+createEFconstrainedPlot(pmvRiskStd,pmvRet,qRiskStd,qRet,sharpeRatios)
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_11.png" alt=""> <h2>11) Resample the efficient frontier - a bootstrapped portfolio optimisation<a name="21"></a></h2><pre class="codeinput">nSamples = 200;
+bootstrpPortOpt(returns,nSamples,names)
+</pre><img vspace="5" hspace="5" src="portfolioAnalysisScript_12.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% PORTFOLIOANALYSISSCRIPT explore your ideas - an intro to MATLAB
+
+%% 1) Import Data
+% Read asset prices from a Database using autogenerated MATLAB scripts.
+% Information can be retrieved from the database direct into a dataset array
+% You can also subsequently customise the autogenerated code.
+
+importFromDB;  % Database Toolbox
+
+%% 2) Plot Time Series
+% Visualize imported time series with legend
+
+createfigure(dates, prices);
+
+%% 3) Calculate Returns and Moments
+% Calculate daily returns, their means and covariance matrix. In this
+% example we make a simplifying assumption of equating expected future
+% expected average returns to historical averages
+
+returns = tick2ret(prices,dates,'Continuous');  % log returns, Financial TB
+
+m = mean(returns)
+covMx = cov(returns)
+C = corrcoef(returns)
+
+%% 4) Visualise the correlations between large cap equity stock indices
+% interactively first, then generate code
+corrplot(returns) % Econometric Toolbox
+correlationPlot(C,names)
+
+%% 5) Use built-in statistical plots to investigate your data
+figure
+normplot(returns)  % Statistics Toolbox
+legend(names)
+
+% Explore your data, looking at distributions of returns
+% Interactive tool:  dfittool  (Statistics Toolbox)
+% Use the autogenerated code to explore the fit
+
+% generated code returns a fit object
+% pd1 - normal distribution object
+% pd2 - t Location-Scale distribution object
+%
+% The t location-scale distribution is useful for modeling data 
+% distributions with heavier tails (more prone to outliers) than the normal 
+% distribution. 
+[pd1,pd2] = createFit( returns(:,1) );  % Explore Canada return series
+
+% Generate a new random sample from the fitted distribution
+newRandomSample = random(pd2,1e6,1);
+
+%% 6) Mean-Variance Portfolio
+% It’s a good idea to look at a portfolio problem according to different 
+% risk measures.  So let’s create a mean-variance portfolio object, and 
+% find the 10 efficient portfolios according to a Mean-Variance risk proxy.  
+% The workflow is very similar to the CVaR portfolio workflow, except that 
+% we use the estimateAssetMoments method now, to estimate the mean and 
+% covariance of our return data.  
+%% 6.1) Setup portfolio
+pmv = Portfolio;
+pmv = pmv.setAssetList(names);
+pmv = pmv.estimateAssetMoments(returns); %Mean and covariance of asset returns from return data.
+pmv = pmv.setDefaultConstraints; %nonnegative weights that must sum to 1.
+
+%% 6.2) Plot the Mean-Variance efficient frontier
+figure; pmv.plotFrontier(10);
+
+%% 7) CVaR Portfolio
+% Here we create the CVaR object and use the object's methods to pass in
+% data and setup the CVaR problem.  By setting the probability level to
+% 0.95, we are choosing to minimize the mean loss in the 5% of portfolio 
+% returns with the highest losses.
+%% 7.1) Setup portfolio
+pmc = PortfolioCVaR;
+pmc = pmc.setAssetList(names);
+pmc = pmc.setScenarios(returns); %Set asset returns scenarios by direct matrix
+pmc = pmc.setDefaultConstraints; % nonnegative weights that must sum to 1
+pmc = pmc.setProbabilityLevel(0.95);
+
+%% 7.2) Plot the CVaR efficient frontier
+figure; [pmcRisk, pmcReturns] = pmc.plotFrontier(10); 
+
+%% 8) Compare CVaR and Mean-Variance portfolios
+%% 8.1) Calculate Mean-Variance for CVaR Portfolios
+% One way that we can compare the portfolios is to convert between risk
+% proxies.  Here, we'll calculate the Mean-Variance risk of the 10 CVaR
+% portfolios using the CVaR portfolio weights.
+pmcweights = pmc.estimateFrontier(10);
+pmcRiskStd = pmc.estimatePortStd(pmcweights);
+
+%% 8.2) Add CVaR Portfolios to Mean-Variance Plot
+% Now that we have the mean-variance risk of the CVaR portfolios, we can
+% add them to the mean-variance frontier plot.
+figure;
+pmv.plotFrontier(10);
+hold on
+plot(pmcRiskStd,pmcReturns,'-r','LineWidth',2);
+legend('Mean-Variance Efficient Frontier',...
+       'CVaR Efficient Frontier',...
+       'Location','SouthEast')
+   
+%% 8.3) Compare Weights
+% Another way to compare the efficient portfolios is to look at the 
+% weights for the 10 portfolios.  We'll visualize the weights for the CVaR 
+% and Mean-Variance side-by-side using area plots. This allows us to
+% see the allocation differences, i.e. mix of the different assets in each 
+% of the 10 efficient portfolios.
+
+pmvweights = pmv.estimateFrontier(10);
+[pmvRiskStd, pmvRet] = estimatePortMoments(pmv, pmvweights);
+riskfreeRate = 0;  % Change this to a more realistic value
+sharpeRatios = (pmvRet ./ pmvRiskStd) - riskfreeRate;  % or use sharpe function in Fin TB
+
+%% Visualise weight allocation.
+figure; 
+
+subplot(1,2,1);
+area(pmcweights');
+title('CVaR Portfolio Weights');
+
+subplot(1,2,2);
+area(pmvweights');
+title('Mean-Variance Portfolio Weights');
+
+set(get(gcf,'Children'),'YLim',[0 1]);
+l = legend(pmv.AssetList);
+set(l, 'Position',[0.92 0.68 0.05 0.24]);
+
+%% 9) Analyze normality of data
+%% 9.1) Let's analyze  the returns
+% Histogram of the returns of the Bond ETF's grouped into 50 bins
+figure;
+hist(returns(:),50); 
+
+%% 5.2) Add a normal fit to the histogram
+% If we try to fit a normal distribution to the return data, it becomes 
+% evident that a normal distribution may not be a good assumption to make. 
+% This helps explain the difference between our Mean-Variance portfolio, 
+% which assumes that returns are normally distributed, and our CVaR 
+% portfolio, which uses simulations that don’t necessarily need to be 
+% normal.
+histfit(returns(:),50); figure(gcf);
+
+%% 10) Include transaction costs and turnover constraints in new portfolio
+Q = pmv;  % place all previous portfolio settings into a new portfolio Q
+
+% Initial portfolio, pick one associated with a particular risk level
+% (Estimate optimal portfolios with targeted portfolio risks.)
+initialPortfolio = estimateFrontierByRisk(pmv,0.01); 
+Q = setInitPort(Q, initialPortfolio );
+Q = setTurnover(Q, 0.1); % ensures average turnover is NO MORE THAN 10%
+Q = setCosts(Q,0.0002,0.0002); % 2bp buying/selling costs (don't need to be same)
+
+qweights = estimateFrontier(Q,20);
+[qRiskStd, qRet] = estimatePortMoments(Q, qweights);
+
+
+createEFconstrainedPlot(pmvRiskStd,pmvRet,qRiskStd,qRet,sharpeRatios)
+
+%% 11) Resample the efficient frontier - a bootstrapped portfolio optimisation
+nSamples = 200;
+bootstrpPortOpt(returns,nSamples,names)
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,472 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>gpu_optionpricing</title><meta name="generator" content="MATLAB 7.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-04-27"><meta name="DC.source" content="gpu_optionpricing.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+
+  </style>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">FV3TYEPWNNQC-18-29246</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">040e5fed-8d58-41d1-91e0-67afa216fc18</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">http://sharepoint/marketing/marcomm/seminars/emea_seminars/_layouts/DocIdRedir.aspx?ID=FV3TYEPWNNQC-18-29246, FV3TYEPWNNQC-18-29246</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Exotic Option Pricing on a GPU using a Monte-Carlo Method</a></li><li><a href="#4">Stock Price Evolution</a></li><li><a href="#7">Running on the GPU</a></li><li><a href="#9">Pricing an Asian Option</a></li><li><a href="#11">Pricing a Lookback Option</a></li><li><a href="#13">Pricing a Barrier Option</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> gpu_optionpricing
+</pre><h2>Exotic Option Pricing on a GPU using a Monte-Carlo Method<a name="2"></a></h2><p>This demo provides some examples of financial option pricing using Monte-Carlo methods on the GPU. Three simple types of exotic option have been chosen as examples, but more complex options can be priced in similar ways.</p><p>This demo uses long-running kernels, so cannot run if kernel execution on the GPU can time-out. A time-out is usually only active if the selected GPU is also driving a display. dev = gpuDevice(); if dev.KernelExecutionTimeout     warning( 'pctdemo:gpuoptionpricing:KernelTimeout', ...              ['This demo cannot run if kernel execution on the GPU ' ...               'can time-out.'] );     return; end</p><h2>Stock Price Evolution<a name="4"></a></h2><p>We assume that prices evolve according to a log-normal distribution related to the risk-free interest rate, the dividend yield (if any), and the volatility in the market.  All of these quantities are assumed fixed over the lifetime of the option.  This gives the following stochastic differential equation for the price:</p><p><img src="gpu_optionpricing_eq10145.png" alt="$${\rm d}S = S \times&#xA;  \left[&#xA;     (r-d){\rm d}t + \sigma \epsilon \sqrt{{\rm d}t}&#xA;  \right]$$"></p><p>where <img src="gpu_optionpricing_eq68961.png" alt="$S$"> is the stock price, <img src="gpu_optionpricing_eq25861.png" alt="$r$"> is the risk-free interest rate, <img src="gpu_optionpricing_eq51528.png" alt="$d$"> is the stock's annual dividend yield, <img src="gpu_optionpricing_eq24873.png" alt="$\sigma$"> is the volatility of the price and <img src="gpu_optionpricing_eq97780.png" alt="$\epsilon$"> represents a Gaussian white-noise process.  Assuming that <img src="gpu_optionpricing_eq97529.png" alt="$(S+\Delta S)/S$"> is log-normally distributed, this can be discretized to:</p><p><img src="gpu_optionpricing_eq83483.png" alt="$$S_{t+1} = S_{t} \times \exp{&#xA;  \left[&#xA;    \left(r - d - \frac{1}{2}\sigma^2\right)\Delta t&#xA;    + \sigma \epsilon \sqrt{ \Delta t }&#xA;  \right]&#xA;} $$"></p><p>As an example let's use $100 of stock that yields a 1% dividend each year.  The central government interest rate is assumed to be 0.5%.  We examine a two-year time window sampled roughly daily.  The market volatility is assumed to be 20% per annum.</p><pre class="codeinput">stockPrice   = 100;   <span class="comment">% Stock price starts at $100.</span>
+dividend     = 0.01;  <span class="comment">% 1% annual dividend yield.</span>
+riskFreeRate = 0.005; <span class="comment">% 0.5 percent.</span>
+timeToExpiry = 2;     <span class="comment">% Lifetime of the option in years.</span>
+sampleRate   = 1/250; <span class="comment">% Assume 250 working days per year.</span>
+volatility   = 0.20;  <span class="comment">% 20% volatility.</span>
+</pre><p>We reset the random number generators to ensure repeatable results.</p><pre class="codeinput">seed = 1234;
+rng( seed );              <span class="comment">% Reset the CPU random number generator.</span>
+parallel.gpu.rng( seed ); <span class="comment">% Reset the GPU random number generator.</span>
+</pre><p>We can now loop over time to simulate the path of the stock price:</p><pre class="codeinput">price = stockPrice;
+time = 0;
+hold <span class="string">on</span>;
+<span class="keyword">while</span> time &lt; timeToExpiry
+    time = time + sampleRate;
+    drift = (riskFreeRate - dividend - volatility*volatility/2)*sampleRate;
+    perturbation = volatility*sqrt( sampleRate )*randn();
+    price = price*exp(drift + perturbation);
+    plot( time, price, <span class="string">'.'</span> );
+<span class="keyword">end</span>
+axis <span class="string">tight</span>;
+grid <span class="string">on</span>;
+xlabel( <span class="string">'Time (years)'</span> );
+ylabel( <span class="string">'Stock price ($)'</span> );
+</pre><img vspace="5" hspace="5" src="gpu_optionpricing_01.png" alt=""> <h2>Running on the GPU<a name="7"></a></h2><p>To run stock price simulations on the GPU we first need to put the simulation loop inside a function:</p><pre class="codeinput">    <span class="keyword">function</span> finalStockPrice = simulateStockPrice(S,r,d,v,T,dT)
+        t = 0;
+        <span class="keyword">while</span> t &lt; T
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+        <span class="keyword">end</span>
+        finalStockPrice = S;
+    <span class="keyword">end</span>
+</pre><p>We can then call it thousands of times using <tt>arrayfun</tt>.  To ensure the calculations happen on the GPU we make the input prices a GPU vector with one element per simulation.  To accurately measure the calculation time on the GPU we must use <tt>wait</tt> to ensure that the GPU has finished all operations before calling <tt>toc</tt>.  This is only required for timing purposes.</p><pre class="codeinput"><span class="comment">% Create the input data.</span>
+N = 1000000;
+startStockPrices = stockPrice*parallel.gpu.GPUArray.ones(N,1);
+timer = tic;
+
+<span class="comment">% Run the simulations.</span>
+finalStockPrices = arrayfun( @simulateStockPrice, <span class="keyword">...</span>
+    startStockPrices, riskFreeRate, dividend, volatility, <span class="keyword">...</span>
+    timeToExpiry, sampleRate );
+meanFinalPrice = mean(finalStockPrices);
+
+<span class="comment">% Wait for the GPU to finish and show the results.</span>
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( <span class="string">'Calculated average price of $%1.4f in %1.3f secs.\n'</span>, <span class="keyword">...</span>
+    meanFinalPrice, timeTaken );
+
+clf;
+hist( finalStockPrices, 100 );
+xlabel( <span class="string">'Stock price ($)'</span> )
+ylabel( <span class="string">'Frequency'</span> )
+grid <span class="string">on</span>;
+</pre><pre class="codeoutput">Calculated average price of $98.9563 in 1.498 secs.
+</pre><img vspace="5" hspace="5" src="gpu_optionpricing_02.png" alt=""> <h2>Pricing an Asian Option<a name="9"></a></h2><p>As an example, let's use a European Asian Option based on the arithmetic mean of the price of the stock during the lifetime of the option.  We can calculate the mean price by accumulating the price during the simulation. For a call option, the option is exercised if the average price is above the strike, and the payout is the difference between the two:</p><pre class="codeinput">    <span class="keyword">function</span> optionPrice = asianCallOption(S,r,d,v,x,T,dT)
+        t = 0;
+        cumulativePrice = 0;
+        <span class="keyword">while</span> t &lt; T
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+            cumulativePrice = cumulativePrice + S;
+        <span class="keyword">end</span>
+        numSteps = (T/dT);
+        meanPrice = cumulativePrice / numSteps;
+        <span class="comment">% Express the final price in today's money.</span>
+        optionPrice = exp(-r*T) * max(0, meanPrice - x);
+    <span class="keyword">end</span>
+</pre><p>Again we use the GPU to run thousands of simulation paths using <tt>arrayfun</tt>.  Each simulation path gives an independent estimate of the option price, and we therefore take the mean as our result.</p><pre class="codeinput">strike = 95;   <span class="comment">% Strike price for the option ($).</span>
+timer = tic;
+
+optionPrices = arrayfun( @asianCallOption, <span class="keyword">...</span>
+    startStockPrices, riskFreeRate, dividend, volatility, strike, <span class="keyword">...</span>
+    timeToExpiry, sampleRate );
+meanOptionPrice = mean(optionPrices);
+
+<span class="comment">% Wait for the GPU to finish and show the results.</span>
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( <span class="string">'Calculated average price of $%1.4f in %1.3f secs.\n'</span>, <span class="keyword">...</span>
+    meanOptionPrice, timeTaken );
+</pre><pre class="codeoutput">Calculated average price of $8.7247 in 1.636 secs.
+</pre><h2>Pricing a Lookback Option<a name="11"></a></h2><p>For this example we use a European-style lookback option whose payout is the difference between the minimum stock price and the final stock price over the lifetime of the option.</p><pre class="codeinput">    <span class="keyword">function</span> optionPrice = euroLookbackCallOption(S,r,d,v,T,dT)
+        t = 0;
+        minPrice = S;
+        <span class="keyword">while</span> t &lt; T
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+            <span class="keyword">if</span> S&lt;minPrice
+                minPrice = S;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="comment">% Express the final price in today's money.</span>
+        optionPrice = exp(-r*T) * max(0, S - minPrice);
+    <span class="keyword">end</span>
+</pre><p>Note that in this case the strike price for the option is the minimum stock price.  Because the final stock price is always greater than or equal to the minimum, the option is always exercised and is not really "optional".</p><pre class="codeinput">timer = tic;
+
+optionPrices = arrayfun( @euroLookbackCallOption, <span class="keyword">...</span>
+    startStockPrices, riskFreeRate, dividend, volatility, <span class="keyword">...</span>
+    timeToExpiry, sampleRate );
+meanOptionPrice = mean(optionPrices);
+
+<span class="comment">% Wait for the GPU to finish and show the results.</span>
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( <span class="string">'Calculated average price of $%1.4f in %1.3f secs.\n'</span>, <span class="keyword">...</span>
+    meanOptionPrice, timeTaken );
+</pre><pre class="codeoutput">Calculated average price of $19.2692 in 1.635 secs.
+</pre><h2>Pricing a Barrier Option<a name="13"></a></h2><p>This final example uses an "up and out" barrier option which becomes invalid if the stock price ever reaches the barrier level.  If the stock price stays below the barrier level then the final stock price is used in a normal European call option calculation.</p><pre class="codeinput">    <span class="keyword">function</span> optionPrice = upAndOutCallOption(S,r,d,v,x,b,T,dT)
+        t = 0;
+        <span class="keyword">while</span> (t &lt; T) &amp;&amp; (S &lt; b)
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> S&lt;b
+            <span class="comment">% Within barrier, so price as for a European option.</span>
+            optionPrice = exp(-r*T) * max(0, S - x);
+        <span class="keyword">else</span>
+            <span class="comment">% Hit the barrier, so the option is withdrawn.</span>
+            optionPrice = 0;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+</pre><p>Note that we must now supply both a strike price for the option and the barrier price at which it becomes invalid:</p><pre class="codeinput">strike  = 95;   <span class="comment">% Strike price for the option ($).</span>
+barrier = 150;  <span class="comment">% Barrier price for the option ($).</span>
+
+timer = tic;
+
+optionPrices = arrayfun( @upAndOutCallOption, <span class="keyword">...</span>
+    startStockPrices, riskFreeRate, dividend, volatility, <span class="keyword">...</span>
+    strike, barrier, <span class="keyword">...</span>
+    timeToExpiry, sampleRate );
+meanOptionPrice = mean(optionPrices);
+
+<span class="comment">% Wait for the GPU to finish and show the results.</span>
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( <span class="string">'Calculated average price of $%1.4f in %1.3f secs.\n'</span>, <span class="keyword">...</span>
+    meanOptionPrice, timeTaken );
+</pre><pre class="codeoutput">Calculated average price of $6.8285 in 1.540 secs.
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer">Copyright 2011 The MathWorks, Inc.<br>
+      Published with MATLAB&reg; 7.14<br></p></div><!--
+##### SOURCE BEGIN #####
+function gpu_optionpricing
+%% Exotic Option Pricing on a GPU using a Monte-Carlo Method
+% This demo provides some examples of financial option pricing using
+% Monte-Carlo methods on the GPU. Three simple types of exotic option have
+% been chosen as examples, but more complex options can be priced in
+% similar ways.
+
+% Copyright 2011 The MathWorks, Inc.
+
+%%
+% This demo uses long-running kernels, so cannot run if kernel execution on
+% the GPU can time-out. A time-out is usually only active if the selected
+% GPU is also driving a display.
+% dev = gpuDevice();
+% if dev.KernelExecutionTimeout
+%     warning( 'pctdemo:gpuoptionpricing:KernelTimeout', ...
+%              ['This demo cannot run if kernel execution on the GPU ' ...
+%               'can time-out.'] );
+%     return;
+% end
+
+%% Stock Price Evolution
+% We assume that prices evolve according to a log-normal distribution
+% related to the risk-free interest rate, the dividend yield (if any), and
+% the volatility in the market.  All of these quantities are assumed fixed
+% over the lifetime of the option.  This gives the following stochastic
+% differential equation for the price:
+%
+% $${\rm d}S = S \times 
+%   \left[
+%      (r-d){\rm d}t + \sigma \epsilon \sqrt{{\rm d}t} 
+%   \right]$$
+%
+% where $S$ is the stock price, $r$ is the risk-free interest rate, $d$ is
+% the stock's annual dividend yield, $\sigma$ is the volatility of the
+% price and $\epsilon$ represents a Gaussian white-noise process.  Assuming
+% that $(S+\Delta S)/S$ is log-normally distributed, this can be
+% discretized to:
+%
+% $$S_{t+1} = S_{t} \times \exp{ 
+%   \left[ 
+%     \left(r - d - \frac{1}{2}\sigma^2\right)\Delta t 
+%     + \sigma \epsilon \sqrt{ \Delta t } 
+%   \right] 
+% } $$
+%
+% As an example let's use $100 of stock that yields a 1% dividend each
+% year.  The central government interest rate is assumed to be 0.5%.  We
+% examine a two-year time window sampled roughly daily.  The market
+% volatility is assumed to be 20% per annum.
+stockPrice   = 100;   % Stock price starts at $100.
+dividend     = 0.01;  % 1% annual dividend yield.
+riskFreeRate = 0.005; % 0.5 percent.
+timeToExpiry = 2;     % Lifetime of the option in years.
+sampleRate   = 1/250; % Assume 250 working days per year.
+volatility   = 0.20;  % 20% volatility.
+
+%%
+% We reset the random number generators to ensure repeatable results.
+seed = 1234;
+rng( seed );              % Reset the CPU random number generator.
+parallel.gpu.rng( seed ); % Reset the GPU random number generator.
+
+%%
+% We can now loop over time to simulate the path of the stock price:
+price = stockPrice;
+time = 0;
+hold on;
+while time < timeToExpiry
+    time = time + sampleRate;
+    drift = (riskFreeRate - dividend - volatility*volatility/2)*sampleRate;
+    perturbation = volatility*sqrt( sampleRate )*randn();
+    price = price*exp(drift + perturbation);
+    plot( time, price, '.' );
+end
+axis tight;
+grid on;
+xlabel( 'Time (years)' );
+ylabel( 'Stock price ($)' );
+
+
+%% Running on the GPU
+% To run stock price simulations on the GPU we first need to put the
+% simulation loop inside a function:
+
+    function finalStockPrice = simulateStockPrice(S,r,d,v,T,dT)
+        t = 0;
+        while t < T
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+        end
+        finalStockPrice = S;
+    end
+
+%%
+% We can then call it thousands of times using |arrayfun|.  To ensure the
+% calculations happen on the GPU we make the input prices a GPU vector with
+% one element per simulation.  To accurately measure the calculation
+% time on the GPU we must use |wait| to ensure that the GPU has finished
+% all operations before calling |toc|.  This is only required for timing
+% purposes.
+
+% Create the input data.
+N = 1000000;
+startStockPrices = stockPrice*parallel.gpu.GPUArray.ones(N,1);
+timer = tic;
+
+% Run the simulations.
+finalStockPrices = arrayfun( @simulateStockPrice, ...
+    startStockPrices, riskFreeRate, dividend, volatility, ...
+    timeToExpiry, sampleRate );
+meanFinalPrice = mean(finalStockPrices);
+
+% Wait for the GPU to finish and show the results.
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( 'Calculated average price of $%1.4f in %1.3f secs.\n', ...
+    meanFinalPrice, timeTaken );
+
+clf;
+hist( finalStockPrices, 100 );
+xlabel( 'Stock price ($)' )
+ylabel( 'Frequency' )
+grid on;
+
+
+%% Pricing an Asian Option
+% As an example, let's use a European Asian Option based on the arithmetic
+% mean of the price of the stock during the lifetime of the option.  We can
+% calculate the mean price by accumulating the price during the simulation.
+% For a call option, the option is exercised if the average price is above
+% the strike, and the payout is the difference between the two:
+
+    function optionPrice = asianCallOption(S,r,d,v,x,T,dT)
+        t = 0;
+        cumulativePrice = 0;
+        while t < T
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+            cumulativePrice = cumulativePrice + S;
+        end
+        numSteps = (T/dT);
+        meanPrice = cumulativePrice / numSteps;
+        % Express the final price in today's money.
+        optionPrice = exp(-r*T) * max(0, meanPrice - x);
+    end
+
+%%
+% Again we use the GPU to run thousands of simulation paths using
+% |arrayfun|.  Each simulation path gives an independent estimate of the
+% option price, and we therefore take the mean as our result.
+strike = 95;   % Strike price for the option ($).
+timer = tic;
+
+optionPrices = arrayfun( @asianCallOption, ...
+    startStockPrices, riskFreeRate, dividend, volatility, strike, ...
+    timeToExpiry, sampleRate );
+meanOptionPrice = mean(optionPrices);
+
+% Wait for the GPU to finish and show the results.
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( 'Calculated average price of $%1.4f in %1.3f secs.\n', ...
+    meanOptionPrice, timeTaken );
+
+
+%% Pricing a Lookback Option
+% For this example we use a European-style lookback option whose payout is
+% the difference between the minimum stock price and the final stock price
+% over the lifetime of the option.
+
+    function optionPrice = euroLookbackCallOption(S,r,d,v,T,dT)
+        t = 0;
+        minPrice = S;
+        while t < T
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+            if S<minPrice
+                minPrice = S;
+            end
+        end
+        % Express the final price in today's money.
+        optionPrice = exp(-r*T) * max(0, S - minPrice);
+    end
+
+%%
+% Note that in this case the strike price for the option is the minimum
+% stock price.  Because the final stock price is always greater than or
+% equal to the minimum, the option is always exercised and is not really
+% "optional".
+timer = tic;
+
+optionPrices = arrayfun( @euroLookbackCallOption, ...
+    startStockPrices, riskFreeRate, dividend, volatility, ...
+    timeToExpiry, sampleRate );
+meanOptionPrice = mean(optionPrices);
+
+% Wait for the GPU to finish and show the results.
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( 'Calculated average price of $%1.4f in %1.3f secs.\n', ...
+    meanOptionPrice, timeTaken );
+
+
+%% Pricing a Barrier Option
+% This final example uses an "up and out" barrier option which becomes
+% invalid if the stock price ever reaches the barrier level.  If the stock
+% price stays below the barrier level then the final stock price is used
+% in a normal European call option calculation.
+
+    function optionPrice = upAndOutCallOption(S,r,d,v,x,b,T,dT)
+        t = 0;
+        while (t < T) && (S < b)
+            t = t + dT;
+            drift = (r - d - v*v/2)*dT;
+            perturbation = v*sqrt( dT )*randn();
+            S = S*exp(drift + perturbation);
+        end
+        if S<b
+            % Within barrier, so price as for a European option.
+            optionPrice = exp(-r*T) * max(0, S - x);
+        else
+            % Hit the barrier, so the option is withdrawn.
+            optionPrice = 0;
+        end
+    end
+
+%%
+% Note that we must now supply both a strike price for the option and the
+% barrier price at which it becomes invalid:
+strike  = 95;   % Strike price for the option ($).
+barrier = 150;  % Barrier price for the option ($).
+
+timer = tic;
+
+optionPrices = arrayfun( @upAndOutCallOption, ...
+    startStockPrices, riskFreeRate, dividend, volatility, ...
+    strike, barrier, ...
+    timeToExpiry, sampleRate );
+meanOptionPrice = mean(optionPrices);
+
+% Wait for the GPU to finish and show the results.
+wait( gpuDevice );
+timeTaken = toc( timer );
+fprintf( 'Calculated average price of $%1.4f in %1.3f secs.\n', ...
+    meanOptionPrice, timeTaken );
+
+end
+##### SOURCE END #####
+--></body></html>
