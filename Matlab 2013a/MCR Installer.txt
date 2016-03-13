@@ -1,11 +1,6 @@
-On the target computer, append the following to your LD_LIBRARY_PATH environment variable:
+﻿On the target computer, append the following to your LD_LIBRARY_PATH environment variable:
 
-/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/runtime/glnxa64:
-/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/bin/glnxa64:
-/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/os/glnxa64:
-/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:
-/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64/server:
-/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64
+/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/runtime/glnxa64:/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/bin/glnxa64:/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/os/glnxa64:/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64/native_threads:/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64/server:/opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/sys/java/jre/glnxa64/jre/lib/amd64
 
 
 
@@ -13,5 +8,3 @@ Next, set the XAPPLRESDIR environment variable to the following value:
 
 /opt/MATLAB/R2013a/MATLAB_Compiler_Runtime/v81/X11/app-defaults
 
-===========================================================================
-C:\Program Files\MATLAB\MATLAB Compiler Runtime\v82\runtime\win64;C:\Program Files\MATLAB\MATLAB Compiler Runtime\v82\bin\win64;C:\Program Files\MATLAB\MATLAB Compiler Runtime\v82\sys\java\jre\win64\jre\lib\amd64;

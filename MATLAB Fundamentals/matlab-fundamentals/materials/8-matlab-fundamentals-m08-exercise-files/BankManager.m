@@ -4,7 +4,8 @@ classdef BankManager
             disp('Would you like an overdraft?');
         end
         function Watch(account)
-            addlistener(account,'InsufficientFunds', @(src, e)  BankManager.OfferOverdraft())
+            addlistener(account,'InsufficientFunds', ...
+                @(src, e) BankManager.OfferOverdraft())
         end
     end
 end
